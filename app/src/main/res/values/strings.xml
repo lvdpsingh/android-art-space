@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Art Space</string>
+    <string name="art_title_1">Flowers in a Metal Vase</string>
+    <string name="art_artist_1">Abraham Mignon</string>
+    <string name="art_year_1">1670</string>
+    <string name="art_title_2">The Lost Child</string>
+    <string name="art_artist_2">Arthur Hughes</string>
+    <string name="art_year_2">1866</string>
+    <string name="art_title_3">The Cannon Shot</string>
+    <string name="art_artist_3">Willem van der Velde</string>
+    <string name="art_year_3">1680</string>
+    <string name="previous">Previous</string>
+    <string name="next">Next</string>
+</resources>
