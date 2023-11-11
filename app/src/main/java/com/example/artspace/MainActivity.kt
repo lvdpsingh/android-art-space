@@ -5,19 +5,9 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -37,6 +27,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.VIEW_MODEL_STORE_OWNER_KEY
 import com.example.artspace.ui.theme.ArtSpaceTheme
 
 class MainActivity : ComponentActivity() {
@@ -56,10 +47,9 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-// Create a composable function named Art Space Layout
 @Composable
 fun ArtSpaceApp() {
-    var result by remember { mutableStateOf(2) }
+    var result by remember { mutableStateOf(1) }
 
     val art = when (result) {
         1 -> {
@@ -88,43 +78,38 @@ fun ArtSpaceApp() {
         }
         else -> println("Error")
     }
-    ButtonsLayout(
-        modifierButton = Modifier
-            .height(50.dp)
-            .width(150.dp),
-        { if (result == 1) result = 3 else result-- },
-        { if (result == 3) result = 1 else result++ }
-    )
 }
 
-// Create a composable function named Art To Display
 @Composable
 fun ArtToDisplay(image: Int, title: Int, artist: Int, year: Int) {
     Column(
         modifier = Modifier
             .padding(15.dp)
-            .fillMaxWidth(),
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.SpaceBetween
     ) {
-        Box(
+        Box (
             modifier = Modifier
-                .heightIn(500.dp, 530.dp)
+                .heightIn(400.dp, 430.dp)
                 .wrapContentHeight(Alignment.CenterVertically)
-        ) {
+        ){
             Image(
                 painter = painterResource(id = image),
                 contentDescription = stringResource(id = title),
                 modifier = Modifier
-                    .border(3.dp, Color.Black, RectangleShape)
-                    .padding(20.dp)
+                    .border(2.dp, Color.Black, RectangleShape)
+                    .padding(15.dp)
             )
         }
+
         Column (
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(15.dp)
+                .padding(10.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
         ){
             Text(
                 text = stringResource(id = title),
@@ -137,6 +122,44 @@ fun ArtToDisplay(image: Int, title: Int, artist: Int, year: Int) {
                 fontFamily = FontFamily.SansSerif,
                 fontStyle = androidx.compose.ui.text.font.FontStyle.Italic
             )
+        }
+
+        Column(
+          modifier = Modifier
+              .fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Bottom
+        ){
+            Spacer(modifier = Modifier.weight(1f))
+            Row(modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 25.dp),
+                horizontalArrangement = Arrangement.SpaceEvenly,
+                verticalAlignment = Alignment.Bottom
+            ){
+                Button(modifier = Modifier
+                    .height(50.dp)
+                    .width(150.dp),
+                    onClick = {}
+                ){
+                    Text(
+                        text = stringResource(id = R.string.previous),
+                        fontSize = 20.sp,
+                        fontFamily = FontFamily.SansSerif
+                    )
+                }
+                Button(modifier = Modifier
+                    .height(50.dp)
+                    .width(150.dp),
+                    onClick = {}
+                ){
+                    Text(
+                        text = stringResource(id = R.string.next),
+                        fontSize = 20.sp,
+                        fontFamily = FontFamily.SansSerif
+                    )
+                }
+            }
         }
     }
 }
@@ -151,14 +174,15 @@ fun ButtonsLayout(
     Column(
         modifier = Modifier
             .padding(top=300.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
+        horizontalAlignment = Alignment.CenterHorizontally
     ){
         Spacer(modifier = Modifier.weight(1f))
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(bottom=25.dp),
-            horizontalArrangement = Arrangement.SpaceEvenly
+                .padding(bottom = 25.dp),
+            horizontalArrangement = Arrangement.SpaceEvenly,
+            verticalAlignment = Alignment.Bottom
         ) {
             Button(
                 onClick = onClickPrevious,
@@ -180,7 +204,6 @@ fun ButtonsLayout(
                     fontFamily = FontFamily.SansSerif
                 )
             }
-
         }
     }
 }
